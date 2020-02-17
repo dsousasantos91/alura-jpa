@@ -40,16 +40,6 @@ public class Configurador extends WebMvcConfigurerAdapter {
 	}
 	
 	@Bean
-	public OpenEntityManagerInViewInterceptor getOpenEntityManagerInViewInterceptor() {
-		return new OpenEntityManagerInViewInterceptor();
-	}
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addWebRequestInterceptor(getOpenEntityManagerInViewInterceptor());
-	}
-	
-	@Bean
 	public List<Categoria> categorias(CategoriaDao categoriaDao) { 
 		List<Categoria> categorias = categoriaDao.getCategorias();
 		
@@ -100,6 +90,16 @@ public class Configurador extends WebMvcConfigurerAdapter {
 			}
 			
 		});
+	}
+	
+	@Bean
+	public OpenEntityManagerInViewInterceptor getOpenEntityManagerInViewInterceptor() {
+		return new OpenEntityManagerInViewInterceptor();
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addWebRequestInterceptor(getOpenEntityManagerInViewInterceptor());
 	}
 	
 }

@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -22,25 +21,23 @@ public class JpaConfigurator {
 
 	@Bean
 	public DataSource getDataSource() throws PropertyVetoException {
-//	    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		
+
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
-	    dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-	    dataSource.setJdbcUrl("jdbc:mysql://localhost/projeto_jpa");
-	    dataSource.setUser("root");
-	    dataSource.setPassword("");
-	    
-	    dataSource.setMinPoolSize(3);
-	    dataSource.setMaxPoolSize(5);
-	    
-	    dataSource.setInitialPoolSize(3);
+		dataSource.setDriverClass("com.mysql.jdbc.Driver");
+		dataSource.setUser("root");
+		dataSource.setPassword("");
+		dataSource.setJdbcUrl("jdbc:mysql://localhost/projeto_jpa");
 
-	    return dataSource;
+		dataSource.setMinPoolSize(3);
+		dataSource.setMaxPoolSize(5);
+
+		return dataSource;
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean getEntityManagerFactory(DataSource dataSource) {
+	public LocalContainerEntityManagerFactoryBean getEntityManagerFactory(
+			DataSource dataSource) {
 		LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 
 		entityManagerFactory.setPackagesToScan("br.com.caelum");
@@ -51,7 +48,8 @@ public class JpaConfigurator {
 
 		Properties props = new Properties();
 
-		props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
+		props.setProperty("hibernate.dialect",
+				"org.hibernate.dialect.MySQL5InnoDBDialect");
 		props.setProperty("hibernate.show_sql", "true");
 		props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
